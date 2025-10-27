@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <!-- META -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Product Tab - LuckyLures</title>
+    <link rel="icon" href="{{url_for('static', filename='images/fvicon.png')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='fonts/flaticon/flaticon.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='fonts/icofont/icofont.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='fonts/fontawesome/fontawesome.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/venobox/venobox.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/slickslider/slick.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/niceselect/nice-select.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='vendor/bootstrap/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/product-details.css')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <style>
+        input {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="backdrop"></div>
+    <a class="backtop fas fa-arrow-up" href="#"></a>
+
+    <!-- HEADER -->
+    <header class="header-part">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-media-group">
+                    <button class="header-user"><img src="static/images/user.png" alt="user"></button>
+                    <a href="{{url_for('products')}}"><img src="static/images/logoo.png" alt="logo"></a>
+                    <button class="header-src"><i class="fas fa-search"></i></button>
+                </div>
+                <a href="{{url_for('products')}}" class="header-logo">
+                    <img src="static/images/logoo.png" alt="logo">
+                </a>
+                <ul class="dropdown">
+                    <a class="navbar-link dropdown-arrow" href="#">My Account</a>
+                    <ul class="dropdown-position-list">
+                        <li><a href="{{url_for('profile')}}">Account Info</a></li>
+                        <li><a href="{{url_for('clear')}}">Logout</a></li>
+                    </ul>
+                </ul>
+                <form class="header-form">
+                    <input type="text" placeholder="Search anything...">
+                    <button><i class="fas fa-search"></i></button>
+                </form>
+                <div class="header-widget-group"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAVBAR -->
+    <nav class="navbar-part">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="navbar-content">
+                        <ul class="navbar-list">
+                            <li class="navbar-item dropdown">
+                                <a class="navbar-link" href="{{url_for('products')}}">Products</a>
+                            </li>
+                            <li class="navbar-item dropdown">
+                                <a class="navbar-link active" href="{{url_for('orders')}}">Orders</a>
+                            </li>
+                            <li class="navbar-item dropdown">
+                                <a class="navbar-link active" href="{{url_for('reports')}}">Reports</a>
+                            </li>
+                            <li class="navbar-item dropdown">
+                                <a class="navbar-link" href="{{url_for('accounts', userType='customer')}}">Accounts</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ORDER TABLE -->
+    <section class="inner-section checkout-part">
+        <div class="container">
+            <div style='text-align: center'>
+                <br><br>
+                <h2>Orders</h2>
+                <div style='padding: 0 40%' class="view-add-group"></div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="account-card">
+                            <div class="account-content">
+                                <div class="table-scroll">
+                                    <div class="sort-buttons" style="text-align: right; margin-bottom: 10px;">
+                                        <label for="sort-select" style="margin-right: 8px;">Sort by:</label>
+                                        <select id="sort-select" class="form-select form-select-sm d-inline-block" style="width: auto;" onchange="location = this.value;">
+                                            <option disabled selected>Choose</option>
+                                            <option value="{{ url_for('orders', sort='date') }}">Date: Recent - Oldest</option>
+                                            <option value="{{ url_for('orders', sort='dateo') }}">Date: Oldest - Recent</option>
+                                            <option value="{{ url_for('orders', sort='total') }}">Total: Higher - Lower</option>                                           
+                                            <option value="{{ url_for('orders', sort='totall') }}">Total: Lower - Higher</option>
+
+                                        </select>
+                                    </div>
+                                    <table class="table-list">
+                                        <thead>
+                                            <tr>
+                                                <th>Order ID</th>
+                                                <th>Status</th>
+                                                <th>Order Date</th>
+                                                <th>Tracking Number</th>
+                                                <th>Total</th>
+                                                <th>Transaction Number</th>
+                                                <th>View/edit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for order in orders %}
+                                            <tr>
+                                                <td><h6>{{order['order_id']}}</h6></td>
+                                                <td><h6>{{order['status']}}</h6></td>
+                                                <td><h6>{{order['timestamp']}}</h6></td>
+                                                <td><h6>{{order['tracking_number']}}</h6></td>
+                                                <td><h6>${{order['total']}}</h6></td>
+                                                <td><h6>{{order['transaction_number']}}</h6></td>
+
+                                                <td>
+                                                    <a class="product-add" href="{{url_for('editorder', order=order['order_id'])}}" title="Edit Order">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer style="background-color: whitesmoke" class="footer-part">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-xl-3">
+                    <div class="footer-widget">
+                        <a class="footer-logo" href="#">
+                            <img src="{{url_for('static', filename='images/logoo.png')}}" alt="logo">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="footer-widget contact">
+                        <h3 class="footer-title">contact us</h3>
+                        <ul class="footer-contact">
+                            <li>
+                                <i class="icofont-ui-email"></i>
+                                <p>
+                                    <span>daniel.lopez27@upr.edu</span>
+                                    <span>kevin.santiago33@upr.edu</span>
+                                    <span>efrain.santiago13@upr.edu</span>
+                                    <span>mario.rios3@upr.edu</span>
+                                </p>
+                            </li>
+                            <li>
+                                <i class="icofont-ui-touch-phone"></i>
+                                <p><span>(939) - 262 - 2607</span></p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-3">
+                    <div class="footer-widget">
+                        <h3 class="footer-title">Follow us</h3>
+                        <div class="footer-links">
+                            <ul>
+                                <li><a href="https://github.com/CCOM-UPRA">Facebook</a></li>
+                                <li><a href="http://upra.edu/">Instagram</a></li>
+                                <li><a href="https://cursos.upra.edu/course/search.php?areaids=core_course-course&q=ccom4115-ME5">Twitter</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="https://www.youtube.com/watch?v=Z1RJmh_OqeA">Reddit</a></li>
+                                <li><a href="https://www.youtube.com/watch?v=qz0aGYrrlhU">TikTok</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><br>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="{{url_for('static', filename='vendor/bootstrap/jquery-1.12.4.min.js')}}"></script>
+    <script src="{{url_for('static', filename='vendor/bootstrap/popper.min.js')}}"></script>
+    <script src="{{url_for('static', filename='vendor/bootstrap/bootstrap.min.js')}}"></script>
+    <script src="{{url_for('static', filename='vendor/countdown/countdown.min.js')}}"></script>
+    <script src="{{url_for('static', filename='vendor/niceselect/nice-select.min.js')}}"></script>
+    <script src="{{url_for('static', filename='vendor/slickslider/slick.min.js')}}"></script>
+    <script src="{{url_for('static', filename='vendor/venobox/venobox.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/nice-select.js')}}"></script>
+    <script src="{{url_for('static', filename='js/countdown.js')}}"></script>
+    <script src="{{url_for('static', filename='js/accordion.js')}}"></script>
+    <script src="{{url_for('static', filename='js/venobox.js')}}"></script>
+    <script src="{{url_for('static', filename='js/slick.js')}}"></script>
+    <script src="{{url_for('static', filename='js/main.js')}}"></script>
+    <script>
+        window.addEventListener("pageshow", function(event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+    </script>
+</body>
+</html>

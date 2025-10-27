@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <!--=====================================
+                    META TAG PART START
+        =======================================-->
+        <!-- REQUIRE META -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- AUTHOR META -->
+        <meta name="author" content="mironcoder">
+        <meta name="email" content="mironcoder@gmail.com">
+        <meta name="profile" content="https://themeforest.net/user/mironcoder">
+
+        <!-- TEMPLATE META -->
+        <meta name="name" content="Greeny">
+        <meta name="title" content="Greeny - eCommerce HTML Template">
+        <meta name="keywords" content="organic, food, shop, ecommerce, store, html, bootstrap, template, agriculture, vegetables, webshop, farm, grocery, natural, online store">
+        <!--=====================================
+                    META-TAG PART END
+        =======================================-->
+
+        <!-- WEBPAGE TITLE -->
+        <title>Product Tab - LuckyLures</title>
+
+        <!--=====================================
+                    CSS LINK PART START
+        =======================================-->
+         <!-- FAVICON -->
+        <link rel="icon" href="{{url_for('static', filename='images/favicon.png')}}">
+
+        <!-- FONTS -->
+         <link rel="stylesheet" href="{{url_for('static', filename='fonts/flaticon/flaticon.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='fonts/icofont/icofont.min.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='fonts/fontawesome/fontawesome.min.css')}}">
+
+        <!-- VENDOR -->
+        <link rel="stylesheet" href="{{url_for('static', filename='vendor/venobox/venobox.min.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='vendor/slickslider/slick.min.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='vendor/niceselect/nice-select.min.css')}}">
+        <link rel="stylesheet" href="{{url_for('static', filename='vendor/bootstrap/bootstrap.min.css')}}">
+
+        <!-- CUSTOM -->
+        <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+         <link rel="stylesheet" href="{{url_for('static', filename='css/product-details.css')}}">
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <!--=====================================
+                    CSS LINK PART END
+        =======================================-->
+        <style>
+            input {
+                border: 1px solid #000;
+            }
+
+        </style>
+
+    </head>
+    <body>
+        <div class="backdrop"></div>
+        <a class="backtop fas fa-arrow-up" href="#"></a>
+        
+
+         <!--=====================================
+                    HEADER PART START
+        =======================================-->
+
+        <header class="header-part">
+            <div class="container">
+                <div class="header-content">
+                    <div class="header-media-group">
+                        <button class="header-user"><img src="static/images/user.png" alt="user"></button>
+                        <a href="{{url_for('products')}}"><img src="static/images/logoo.png" alt="logo"></a>
+                        <button class="header-src"><i class="fas fa-search"></i></button>
+                    </div>
+
+                    <a href="{{url_for('products')}}" class="header-logo">
+                        <img src="{{ url_for('static', filename='images/logoo.png') }}" alt="logo">
+                    </a>
+                    <ul class="dropdown">
+                    <a class="navbar-link dropdown-arrow" href="#">My Account</a>
+                                    <ul class="dropdown-position-list">
+                                        <li><a href="{{url_for('profile')}}">Account Info</a></li>
+                                        <li><a href="{{url_for('clear')}}">Logout</a></li>
+                                    </ul>
+                    </ul>
+
+                    <form class="header-form">
+                        <input type="text" placeholder="Search anything...">
+                        <button><i class="fas fa-search"></i></button>
+                    </form>
+
+                    <div class="header-widget-group">
+
+
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!--=====================================
+                    HEADER PART END
+        =======================================-->
+
+        <!--=====================================
+                    NAVBAR PART START
+        =======================================-->
+        <nav class="navbar-part">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="navbar-content">
+                            <ul class="navbar-list">
+                                <li class="navbar-item dropdown">
+                                    <a class="navbar-link" href="{{url_for('products')}}">Products</a>
+                                </li>
+
+                                <li class="navbar-item dropdown">
+                                    <a class="navbar-link active" href="{{url_for('orders')}}">Orders</a>
+                                </li>
+
+                                <li class="navbar-item dropdown">
+                                    <a class="navbar-link active" href="{{url_for('reports')}}">Reports</a>
+                                </li>
+
+                                <li class="navbar-item dropdown">
+                                    <a class="navbar-link" href="{{url_for('accounts', userType='customer')}}">Accounts</a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!--=====================================
+                    NAVBAR PART END
+        =======================================-->
+
+
+        <!--=====================================
+                PRODUCT DETAILS PART START
+        =======================================-->
+        <section class="inner-section">
+            <div class="container">
+
+                <div style='text-align: center'>
+
+                        <br><br>
+                        <h2>{{prod['name']}}</h2>
+                        <br>
+
+                    </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="details-gallery">
+                            <ul class="details-preview">
+                                <li><img src="../static/images/product-images/{{prod['image']}}" alt="product"></li>
+                            </ul>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="details-content">
+                            <h3 class="details-name"><a href="#">Details</a></h3>
+                            <form style="width:100%" class="modal-form"
+      action="{{ url_for('editproduct') }}" method="POST" enctype="multipart/form-data">
+
+    <input type="hidden" name="product_id" value="{{ prod['product_id'] }}">
+
+    <label class="form-label">Name:
+        <input type="text" name="name" class="form-control" value="{{ prod['name'] }}" required>
+    </label><br>
+
+    <label class="form-label">Brand:
+        <select name="brand" class="form-control" required>
+            {% for brand in ['Abu Garcia','Blue Fox','Daiwa','Rapala','Salmo','Shimano','Westin'] %}
+            <option value="{{ brand }}" {% if prod['brand'] == brand %}selected{% endif %}>{{ brand }}</option>
+            {% endfor %}
+        </select>
+    </label><br>
+
+    <label class="form-label">Color:
+        <select name="color" class="form-control" required>
+            {% for color in ['Red','Yellow','Blue','Black','White','Orange','Green','Purple','Pink','Copper','Silver'] %}
+            <option value="{{ color }}" {% if prod['color'] == color %}selected{% endif %}>{{ color }}</option>
+            {% endfor %}
+        </select>
+    </label><br>
+
+    <label class="form-label">Price:
+        <input type="number" step="0.01" name="price" class="form-control" value="{{ prod['price'] }}" required>
+    </label><br>
+
+    <label class="form-label">Cost:
+        <input type="number" step="0.01" name="cost" class="form-control" value="{{ prod['cost'] }}" required>
+    </label><br>
+
+    <label class="form-label">Stock:
+        <input type="number" name="stock" class="form-control" value="{{ prod['stock'] }}" required>
+    </label><br>
+
+    <label class="form-label">Description:
+        <input type="text" name="desc" class="form-control" value="{{ prod['description'] }}">
+    </label><br>
+
+    <label class="form-label">Material:
+        <select name="material" class="form-control" required>
+            {% for mat in ['Stainless Steel','Metal','Plastic','Polycarbonate'] %}
+            <option value="{{ mat }}" {% if prod['material'] == mat %}selected{% endif %}>{{ mat }}</option>
+            {% endfor %}
+        </select>
+    </label><br>
+
+    <label class="form-label">Buoyancy:
+        <select name="buoyancy" class="form-control" required>
+            {% for buoy in ['Floats','Sinks'] %}
+            <option value="{{ buoy }}" {% if prod['buoyancy'] == buoy %}selected{% endif %}>{{ buoy }}</option>
+            {% endfor %}
+        </select>
+    </label><br>
+
+    <label class="form-label">Weight (g):
+        <input type="number" step="0.01" name="weight" class="form-control" value="{{ prod['weight'] }}" required>
+    </label><br>
+
+    <label class="form-label">Length (cm):
+        <input type="number" step="0.01" name="length" class="form-control" value="{{ prod['length'] }}" required>
+    </label><br>
+
+    <label class="form-label">Hooks:
+        <input type="number" name="hooks" class="form-control" value="{{ prod['hooks'] }}" required>
+    </label><br>
+
+    <label class="form-label">Image:
+        <input type="file" name="myfile">
+        <br><small>Current image: {{ prod['image'] }}</small>
+    </label><br>
+
+    <label class="form-label">Status:</label><br>
+    <label for="active">Active</label>
+    <input type="radio" id="active" name="status" value="Active" {% if prod['status'] == 'Active' %}checked{% endif %}>
+
+    <label for="inactive">Inactive</label>
+    <input type="radio" id="inactive" name="status" value="Inactive" {% if prod['status'] == 'Inactive' %}checked{% endif %}>
+
+    <div class="details-add-group">
+        <button type="submit" class="product-add2" title="Save changes">
+            <span>Edit Product</span>
+        </button>
+    </div>
+</form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--=====================================
+                PRODUCT DETAILS PART END
+        =======================================-->
+
+
+
+        <!--=====================================
+                     FOOTER PART START
+        =======================================-->
+        <footer style="background-color: whitesmoke" class="footer-part">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="footer-widget">
+                            <a class="footer-logo" href="#">
+                                <img src="{{url_for('static', filename='images/logoo.png')}}" alt="logo">
+                            </a>
+                            <p class="footer-desc"></p>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="footer-widget contact">
+                            <h3 class="footer-title">contact us</h3>
+                            <ul class="footer-contact">
+                                <li>
+                                    <i class="icofont-ui-email"></i>
+                                    <p>
+                                        <span>daniel.lopez27@upr.edu</span>
+                                        <span>kevin.santiago33@upr.edu</span>
+                                        <span>efrain.santiago13@upr.edu</span>
+                                        <span>mario.rios3@upr.edu</span>
+                                    </p>
+                                </li>
+                                <li>
+                                    <i class="icofont-ui-touch-phone"></i>
+                                    <p>
+                                        <span>(939) - 262 - 2607</span>
+                                    </p>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="footer-widget">
+                            <h3 class="footer-title">Follow us</h3>
+                            <div class="footer-links">
+                                <ul>
+                                    <li><a href="https://github.com/CCOM-UPRA">Facebook</a></li>
+                                    <li><a href="http://upra.edu/">Instagram</a></li>
+                                    <li><a href="https://cursos.upra.edu/course/search.php?areaids=core_course-course&q=ccom4115-ME5">Twitter</a></li>
+                                </ul>
+                                <ul>
+                                    <li><a href="https://www.youtube.com/watch?v=Z1RJmh_OqeA">Reddit</a></li>
+                                    <li><a href="https://www.youtube.com/watch?v=qz0aGYrrlhU">TikTok</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="footer-widget">
+                            
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </footer>
+        <!--=====================================
+                      FOOTER PART END
+        =======================================-->
+        
+
+        <!--=====================================
+                    JS LINK PART START
+        =======================================-->
+         <!-- VENDOR -->
+        <script src="{{url_for('static', filename='vendor/bootstrap/jquery-1.12.4.min.js')}}"></script>
+        <script src="{{url_for('static', filename='vendor/bootstrap/popper.min.js')}}"></script>
+        <script src="{{url_for('static', filename='vendor/bootstrap/bootstrap.min.js')}}"></script>
+        <script src="{{url_for('static', filename='vendor/countdown/countdown.min.js')}}"></script>
+        <script src="{{url_for('static', filename='vendor/niceselect/nice-select.min.js')}}"></script>
+        <script src="{{url_for('static', filename='vendor/slickslider/slick.min.js')}}"></script>
+        <script src="{{url_for('static', filename='vendor/venobox/venobox.min.js')}}"></script>
+
+        <!-- CUSTOM -->
+        <script src="{{url_for('static', filename='js/nice-select.js')}}"></script>
+        <script src="{{url_for('static', filename='js/countdown.js')}}"></script>
+        <script src="{{url_for('static', filename='js/accordion.js')}}"></script>
+        <script src="{{url_for('static', filename='js/venobox.js')}}"></script>
+        <script src="{{url_for('static', filename='js/slick.js')}}"></script>
+        <script src="{{url_for('static', filename='js/main.js')}}"></script>
+        <!--=====================================
+                    JS LINK PART END
+        =======================================-->
+    </body>
+</html>
+
+
+
+
+
+
